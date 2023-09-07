@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    azure:
+      eventhubs:
+        connection-string: Endpoint=sb://kergru.servicebus.windows.net/;SharedAccessKeyName=kergrusaspolicy;SharedAccessKey=FNmjjIUlagcTiUvr8ImClkngcFx+9lI92+AEhPrgpxw=;EntityPath=kergrueventhub
+    function:
+      definition: messageProducer;messageConsumer
+    stream:
+      kafka:
+        binder:
+          auto-create-topics: false
+      bindings:
+        messageConsumer-in-0:
+          destination: kergrueventhub
+          group: $Default
+        messageProducer-out-0:
+          destination: kergrueventhub
+          group: $Default
+      binders:
+        kafka:
+          environment:
+            spring:
+              main:
+                sources: com.azure.spring.cloud.autoconfigure.implementation.eventhubs.kafka.AzureEventHubsKafkaAutoConfiguration
